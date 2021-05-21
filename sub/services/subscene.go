@@ -144,7 +144,7 @@ func (s *SubScene) DownloadStage2(id string) {
 	archive, _ := zip.OpenReader(zipFile.Name())
 	for _, f := range archive.File {
 		fmt.Println("Found file", f.Name)
-		dst, err := os.Create("/tmp/bach.srt")
+		dst, err := os.Create(f.Name)
 		if err != nil {
 			panic(err)
 		}
@@ -158,6 +158,7 @@ func (s *SubScene) DownloadStage2(id string) {
 		}
 		dst.Close()
 		src.Close()
-		fmt.Println("File written")
+		fmt.Println("File downloaded to", f.Name)
+		fmt.Println("Enjoy the movie :)")
 	}
 }

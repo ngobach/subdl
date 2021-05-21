@@ -1,7 +1,13 @@
-run:
-	go run . search Untouchable
+dist:
+	@rm -rf dist
+	@mkdir dist
+	@echo "\"dist\" created"
 
-build:
-	rm -rf dist && mkdir dist
-	go build -o ./dist/subdl .
-	# strip ./dist/subdl
+dist/subdl: dist
+	@go build -o $@ .
+	@strip $@
+	@echo "Build done"
+
+build: dist/subdl
+
+.PHONY: dist

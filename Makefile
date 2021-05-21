@@ -1,3 +1,7 @@
+.PHONY: dist
+
+default: build
+
 dist:
 	@rm -rf dist
 	@mkdir dist
@@ -9,5 +13,3 @@ dist/subdl: dist
 	@echo "Build done"
 
 build: dist/subdl
-
-.PHONY: dist

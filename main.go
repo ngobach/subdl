@@ -77,5 +77,10 @@ func main() {
 			},
 		},
 	}
-	app.Run(os.Args)
+
+	err := app.Run(os.Args)
+	if err != nil {
+		fmt.Printf("Application exited with error:\n%s\n", err.Error())
+		os.Exit(1)
+	}
 }

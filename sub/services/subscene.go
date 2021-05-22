@@ -142,23 +142,37 @@ func (s *SubScene) DownloadStage2(id string) {
 	zipFile.Close()
 	zipFile, _ = os.Open(zipFile.Name())
 	archive, _ := zip.OpenReader(zipFile.Name())
+	fileNames := []string{}
 	for _, f := range archive.File {
-		fmt.Println("Found file", f.Name)
-		dst, err := os.Create(f.Name)
-		if err != nil {
-			panic(err)
-		}
-		src, err := f.Open()
-		if err != nil {
-			panic(err)
-		}
-		_, err = io.Copy(dst, src)
-		if err != nil {
-			panic(err)
-		}
-		dst.Close()
-		src.Close()
-		fmt.Println("File downloaded to", f.Name)
-		fmt.Println("Enjoy the movie :)")
+		fileNames = append(fileNames, f.Name)
 	}
+	fileNames = filterSubtitleFiles(fileNames)
+	fileToExtract := ""
+	if len(fileNames) == 0 {
+		panic("Unable to find subtitle files")
+	} else if len(fileNames) == 1 {
+		fileToExtract = fileNames[0]
+	} else {
+		survey.AskOne(&survey.Select{
+			Message: "Please select a file to extract",
+			Options: fileNames,
+		}, &fileToExtract, nil)
+	}
+
+	dst, err := os.Create(fileToExtract)
+	if err != nil {
+		panic(err)
+	}
+	src, err := archive.Open(fileToExtract)
+	if err != nil {
+		panic(err)
+	}
+	_, err = io.Copy(dst, src)
+	if err != nil {
+		panic(err)
+	}
+	dst.Close()
+	src.Close()
+	fmt.Println("File downloaded to", fileToExtract)
+	fmt.Println("Enjoy the movie :)")
 }

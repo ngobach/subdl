@@ -1,4 +1,4 @@
-.PHONY: dist
+INSTALL_DST := /usr/local/bin
 
 default: build
 
@@ -7,9 +7,17 @@ dist:
 	@mkdir dist
 	@echo "\"dist\" created"
 
-dist/subdl: dist
+dist/subdl: dist sub main.go
 	@go build -o $@ .
 	@strip $@
-	@echo "Build done"
+	@echo "Build $@ done"
 
-build: dist/subdl
+dist/subdl.exe: dist sub main.go
+	@GOOS=windows go build -o $@ .
+	@strip $@
+	@echo "Build $@ done"
+
+build: dist/subdl dist/subdl.exe
+
+install: dist/subdl
+	cp dist/subdl $(INSTALL_DST)/subdl

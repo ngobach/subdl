@@ -3,6 +3,11 @@ subdl
 
 A command tool to download subtitles from various sources.
 
+How it work
+---
+
+[![asciicast](https://asciinema.org/a/csOf3CEP0gKaDWplzIiKDNpOO.svg)](https://asciinema.org/a/csOf3CEP0gKaDWplzIiKDNpOO)
+
 Install
 ----
 
